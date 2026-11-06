@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sign in · Tools by Athul</title>
+<link rel="icon" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.gate{min-height:100%;display:grid;place-items:center;padding:16px}
+.card{width:min(360px,100%);border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.card header{padding:14px 16px;border-bottom:1px solid var(--line);font:12px var(--mono);display:flex;justify-content:space-between;color:var(--muted)}
+.card header b{color:var(--ink);font-weight:400}
+form{padding:16px;display:grid;gap:12px}
+h1{font:500 22px/1.2 var(--sans);margin:0 0 4px;letter-spacing:-.01em}
+label{font-size:12.5px;color:var(--muted);display:grid;gap:6px}
+input[type=password]{font:14px var(--sans);color:var(--ink);background:#000;border:1px solid var(--line2);border-radius:7px;padding:9px 10px}
+input[type=password]:hover{border-color:var(--muted)}
+</style>
+</head>
+<body>
+<main class="gate">
+  <div class="card">
+    <header><b>Tools by Athul</b><span>team access</span></header>
+    <form id="f">
+      <h1>Sign in</h1>
+      <label>Team password<input type="password" id="pw" autocomplete="current-password" required autofocus></label>
+      <button class="btn primary" type="submit" id="go">Enter</button>
+      <p class="status" id="msg" role="status"></p>
+    </form>
+  </div>
+</main>
+<script>
+const f=document.getElementById('f'),pw=document.getElementById('pw'),msg=document.getElementById('msg'),go=document.getElementById('go');
+f.addEventListener('submit',async e=>{e.preventDefault();go.disabled=true;msg.textContent='Checking…';
+  try{const r=await fetch('api/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({password:pw.value})});
+    const j=await r.json().catch(()=>({}));
+    if(r.ok){const n=new URLSearchParams(location.search).get('next');location.href=(n&&n.startsWith('/')&&!n.startsWith('//'))?n:'/';return;}
+    msg.textContent=j.error||'Couldn’t sign in. Try again.';}
+  catch(err){msg.textContent='Couldn’t reach the server. Check your connection.';}
+  go.disabled=false;pw.select();});
+</script>
+</body>
+</html>
