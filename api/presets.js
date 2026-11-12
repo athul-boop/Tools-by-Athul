@@ -1,7 +1,7 @@
 import { put, list, del, get } from '@vercel/blob';
 import { isSignedIn, json } from './_auth.js';
 
-const TOOLS = new Set(['pattern-studio', 'form-studio', 'flare-studio', 'pin-studio']);
+const TOOL_KEY = /^[a-z0-9-]{3,40}$/;
 // Blob stores can be private or public. Try the configured one first, then the other.
 let ACCESS = process.env.BLOB_ACCESS === 'public' ? 'public' : 'private';
 const other = (a) => (a === 'private' ? 'public' : 'private');
@@ -9,7 +9,7 @@ const path = (tool, id) => `presets/${tool}/${id}.json`;
 
 function check(request) {
   const tool = new URL(request.url).searchParams.get('tool');
-  if (!TOOLS.has(tool)) return { error: json({ error: 'Unknown tool.' }, 400) };
+  if (!TOOL_KEY.test(tool || '')) return { error: json({ error: 'Unknown tool.' }, 400) };
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
     return { error: json({ error: 'Team storage isn’t connected yet. Connect a Blob store in Vercel.' }, 503) };
   }
