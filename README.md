@@ -7,7 +7,7 @@ Four generative tools (Pattern, Form, Flare, Pin) behind one team password, with
 | File | What it does |
 |---|---|
 | `index.html` | Home page with the four tool cards |
-| `pattern.html`, `form.html`, `flare.html`, `pin.html` | The tools |
+| `pattern.html`, `form.html`, `flare.html`, `pin.html`, `fold.html`, `prism.html`, `ribbon.html`, `helix.html` | The tools |
 | `login.html` | The password screen |
 | `assets/ui.css` | Shared black, minimal look |
 | `middleware.js` | The gatekeeper. Sends anyone without the password to the login screen |
@@ -34,3 +34,11 @@ Four generative tools (Pattern, Form, Flare, Pin) behind one team password, with
 
 - Vercel's free Hobby plan is for personal, non-commercial use. For agency work, check whether you need Pro.
 - If team presets won't save and the Blob store was created as Public, add an environment variable `BLOB_ACCESS` with the value `public` and redeploy.
+
+## Adding a new tool later
+
+1. Upload the new tool's `.html` file to the repo.
+2. Add a card for it in `index.html` (copy an existing card and change the link, number, name and line).
+3. Add a line at the top of `assets/changelog.js`.
+
+Team presets work for new tools automatically.

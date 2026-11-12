@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Changelog · Tools by Athul</title>
+<link rel="icon" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/home.css">
+</head>
+<body>
+<div class="page">
+  <section class="hero" style="min-height:260px">
+    <header class="top">
+      <a class="brand" href="./" style="text-decoration:none">
+        <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 24 L16 8 L24 24"/><path d="M11 18 H21"/></g></svg>
+        <span>tools.byathul</span>
+      </a>
+      <nav class="pills" aria-label="Main">
+        <a href="./#tools">Tools</a>
+        <a href="./#presets">Presets</a>
+        <a href="changelog" aria-current="page">Changelog</a>
+      </nav>
+    </header>
+    <h1>Changel0g</h1>
+  </section>
+  <div class="label"><h2>Updates</h2><span>Newest first</span></div>
+  <div class="entries" id="entries"></div>
+  <footer class="foot"><span>Tools by Athul</span><a href="./" style="color:inherit">Back to tools</a></footer>
+</div>
+<script src="assets/changelog.js"></script>
+<script>
+const box=document.getElementById('entries');
+(window.CHANGELOG||[]).forEach(e=>{const s=document.createElement('article');s.className='entry';
+  const d=document.createElement('span');d.className='date';d.textContent=e.date;
+  const w=document.createElement('div');const h=document.createElement('h3');h.textContent=e.title;const p=document.createElement('p');p.textContent=e.body||'';
+  w.append(h,p);s.append(d,w);box.append(s);});
+</script>
+</body>
+</html>
