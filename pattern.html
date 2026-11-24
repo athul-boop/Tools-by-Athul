@@ -8,26 +8,51 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.svg">
-<link rel="stylesheet" href="assets/ui.css">
+<link rel="stylesheet" href="assets/kit.css">
 </head>
 <body>
-<div class="app">
-  <main class="stage">
-    <div class="bar">
-      <a class="home" href="./">Tools by Athul</a><span class="crumb">/</span><h1>Pattern <span id="fxname"></span></h1>
-      <button class="btn" id="play" type="button">Pause</button>
-      <button class="btn" id="shuffle" type="button">Shuffle</button>
-      <button class="btn" id="reset" type="button">Reset effect</button>
+<header class="top">
+  <a class="brand" href="./" title="All tools"><svg width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"><g stroke="currentColor" stroke-width="2.4" fill="none"><path d="M8 26 L16 6 L24 26"/><path d="M11 19 H21"/></g></svg>Tools</a><span class="crumb">/</span><span class="tname">Pattern <span id="fxname"></span></span>
+  <span class="dims" id="dims"></span>
+  <span class="spacer"></span>
+  <button class="btn icon" id="bUndo" type="button" title="Undo (Ctrl or Cmd + Z)" aria-label="Undo" disabled><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 3 L2 6 L5 9"/><path d="M2 6 H9 a3 3 0 0 1 0 6 H6"/></svg></button>
+  <button class="btn icon" id="bRedo" type="button" title="Redo (Shift + Ctrl or Cmd + Z)" aria-label="Redo" disabled><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" transform="scale(-1,1)"><path d="M5 3 L2 6 L5 9"/><path d="M2 6 H9 a3 3 0 0 1 0 6 H6"/></svg></button>
+  <span class="sep"></span>
+  <button class="btn" id="shuffle" type="button">Randomize</button>
+  <button class="btn" id="bPresets" type="button" aria-haspopup="true" aria-expanded="false">Presets</button>
+  <button class="btn" id="reset" type="button">Reset</button>
+  <span class="sep"></span>
+  <button class="btn" id="bPng" type="button">PNG</button>
+  <button class="btn solid" id="bMp4" type="button">Video</button>
+  <div class="menu" id="menu" hidden><div id="presets"></div></div>
+</header>
+<aside class="panel" id="panel" aria-label="Settings">
+  <div class="effects" id="effects"></div>
+  <div id="sections"></div>
+</aside>
+<section class="stage" id="wrap"><canvas id="out" aria-label="Pattern preview. Drag to rotate."></canvas><div class="stage-meta" id="stat"></div></section>
+<section class="tl" aria-label="Timeline">
+  <div class="tl-bar">
+    <button class="btn icon" id="tStart" type="button" title="Go to start" aria-label="Go to start"><svg width="12" height="12" viewBox="0 0 12 12"><rect x="1" y="1" width="1.5" height="10" fill="currentColor"/><path d="M11 1 L4 6 L11 11Z" fill="currentColor"/></svg></button>
+    <button class="btn icon" id="tPrev" type="button" title="Previous frame" aria-label="Previous frame"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M9 1 L3 6 L9 11Z" fill="currentColor"/></svg></button>
+    <button class="btn icon" id="play" type="button" title="Play (space)" aria-label="Play"></button>
+    <button class="btn icon" id="tNext" type="button" title="Next frame" aria-label="Next frame"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 1 L9 6 L3 11Z" fill="currentColor"/></svg></button>
+    <span class="time" id="kTime"></span>
+    <label class="tl-field">Length <input class="num" id="kDur" type="number" min="0.5" max="120" step="0.5"> s</label>
+    <label class="tl-field">Rate <select id="kFps"><option>24</option><option>25</option><option selected>30</option><option>50</option><option>60</option></select></label>
+    <div class="insp" id="kInsp" hidden>
+      <span class="name" id="kName"></span>
+      <input class="num" id="kVal" type="number" step="any" title="Key value" aria-label="Key value">
+      <select id="kEase" title="Easing to next key" aria-label="Easing to next key"><option value="linear">Linear</option><option value="in">Ease in</option><option value="out">Ease out</option><option value="inout">Ease in out</option><option value="back">Overshoot</option><option value="step">Hold</option></select>
+      <button class="btn sm" id="kAll" type="button" title="Use this easing on every key of this setting">Apply to all</button>
+      <button class="btn sm" id="kDel" type="button">Delete key</button>
     </div>
-    <div class="canvas-wrap" id="wrap"><canvas id="out" aria-label="Pattern preview. Drag to rotate."></canvas></div>
-    <div class="stat" id="stat"></div>
-  </main>
-  <aside class="panel">
-    <div class="effects" id="effects"></div>
-    <div id="presets"></div>
-    <div id="sections"></div>
-  </aside>
-</div>
+  </div>
+  <div class="tl-body" id="tlBody"></div>
+</section>
+<input type="range" id="scrub" hidden aria-hidden="true"><output id="time" hidden></output>
+<div class="toast" id="toast" role="status"></div>
+
 <input type="file" id="file" accept="image/png,image/jpeg,image/webp" hidden>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -569,7 +594,7 @@ function renderFrame(){
   LB.mat.blending=bl;PB.mat.blending=bl;LB.mat.uniforms.uOp.value=P.lineOp;PB.mat.uniforms.uOp.value=1;
   MP=timeline();
   const kp=MP,saved={};
-  for(const k in P.kf){const f=P.kf[k];saved[k]=P[k];P[k]=f.a+(f.b-f.a)*kp;}
+  for(const k in P.kf){const f=P.kf[k];if(!f||!f.keys)continue;const v=kVal(f,timeX());if(v===null)continue;saved[k]=P[k];P[k]=v;}
   try{
     compute();
     renderer.render(scene,camera);
@@ -616,9 +641,9 @@ function record(btn){
   if(!mime){status('This browser can’t encode video.');return;}
   const ext=mime.startsWith('video/mp4')?'mp4':'webm';
   const[W,H]=exportDims(+P.vidSize);recording=true;setSize(W,H);t=0;playing=true;syncPlay();
-  const stream=out.captureStream(30);const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:24e6});const chunks=[];
+  const stream=out.captureStream(kFps);const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:24e6});const chunks=[];
   rec.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data);};
-  rec.onstop=()=>{recording=false;resizeNeeded=true;btn.disabled=false;btn.textContent='Record loop';const b=new Blob(chunks,{type:mime.split(';')[0]});saveFile('pattern-'+P.effect+'-'+P.seed+'-loop.'+ext,b);};
+  rec.onstop=()=>{recording=false;resizeNeeded=true;btn.disabled=false;btn.textContent='Video';const b=new Blob(chunks,{type:mime.split(';')[0]});saveFile('pattern-'+P.effect+'-'+P.seed+'-loop.'+ext,b);};
   rec.start(250);btn.disabled=true;const t0=performance.now();
   const iv=setInterval(()=>{const s=(performance.now()-t0)/1000;btn.textContent='Recording '+s.toFixed(1)+' / '+P.loop+' s';if(s>=P.loop){clearInterval(iv);rec.stop();}},100);
   status('Recording one '+P.loop+' s loop at '+W+' × '+H+'. Keep this tab open.');
@@ -670,7 +695,6 @@ function sections(){
       R('loop','Duration (s)',2,30,0.5),
       {t:'note',l:'Ambient drift runs underneath every animation:'},
       R('flow','Flow',0,1.5,0.01),R('spin','Spins per loop',-2,2,1),R('twistWave','Twist wave',0,1.5,0.01),R('breathe','Breathe',0,1.5,0.01),R('iridDrift','Color drift',0,2,0.01)]},
-    {id:'kf',title:'Keyframes',items:[{t:'note',l:'Pick a setting and give it a start and end value. It moves between them using the timing in Motion.'},{t:'kf'}]},
     {id:'overlay',title:'Overlays',items:[
       {k:'frame',l:'Nested frame',t:'toggle'},R('frameLayers','Frame lines',1,20,1,{show:()=>P.frame}),R('frameDepth','Frame depth',0,0.6,0.01,{show:()=>P.frame}),
       R('scan','Scanlines',0,400,1),R('scanOp','Scanline opacity',0,1,0.01),R('scanBand','Scanline band width',0.05,1,0.01),
@@ -890,6 +914,132 @@ function makePresets(cfg){
   render();
 }
 function loadImgURL(url,cb){const im=new Image();im.onload=()=>{const cv=document.createElement('canvas');cv.width=im.width;cv.height=im.height;cv.getContext('2d').drawImage(im,0,0);cb(cv);};im.src=url;}
+function timeX(){return((t%P.loop)+P.loop)%P.loop/P.loop;}
+/* ---------- kit: shared shell, keyframe timeline, undo ---------- */
+const KDUR=('dur' in BASE)?'dur':'loop';
+const kDur=()=>Math.max(0.1,+P[KDUR]||1);
+const KNOKF=(typeof NOKF!=='undefined')?NOKF:new Set(['dur','loop','seed']);
+const KSTRUCT=(typeof STRUCT!=='undefined')?STRUCT:new Set();
+let kSel=null,kFps=30,KCFG=null;
+const $k=id=>document.getElementById(id);
+function kEase(n,u){u=Math.min(1,Math.max(0,u));switch(n){case 'in':return u*u*u;case 'out':return 1-Math.pow(1-u,3);case 'inout':return u<0.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;case 'step':return u<1?0:1;case 'back':{const c=1.70158,v=u-1;return 1+(c+1)*v*v*v+c*v*v;}default:return u;}}
+function kVal(tr,x){const ks=tr.keys;if(!ks.length)return null;if(x<=ks[0].t)return ks[0].v;
+  for(let j=0;j<ks.length-1;j++){const a=ks[j],b=ks[j+1];if(x<=b.t){const u=(x-a.t)/((b.t-a.t)||1);return a.v+(b.v-a.v)*kEase(a.e,u);}}return ks[ks.length-1].v;}
+function kX(){return timeX();}
+function kKfable(k){return !!k&&!KNOKF.has(k)&&!KSTRUCT.has(k)&&typeof BASE[k]==='number';}
+function kDef(k){for(const sec of sections())for(const it of sec.items)if(it.t==='range'&&it.k===k)return it;return null;}
+function kSort(tr){tr.keys.sort((a,b)=>a.t-b.t);}
+function kKeyAt(tr){const tol=0.5/(kDur()*kFps);return tr.keys.findIndex(q=>Math.abs(q.t-kX())<=tol);}
+function kCur(k){return P.kf&&P.kf[k]?kVal(P.kf[k],kX()):P[k];}
+function kFmt(v,step){const d=step<1?Math.min(4,(String(step).split('.')[1]||'').length):0;return(+v).toFixed(d);}
+function toast(msg){const t0=$k('toast');if(!t0)return;t0.textContent=msg;t0.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t0.classList.remove('show'),2200);}
+
+/* one slider row: diamond, label, number, slider */
+function rangeEl(it){
+  const k=it.k,can=!it.get&&kKfable(k);const anim=can&&P.kf&&P.kf[k];
+  const row=document.createElement('div');row.className='row range'+(anim?' animated':'');if(k&&!it.get)row.dataset.row=k;
+  const kb=document.createElement('button');kb.type='button';kb.className='kf'+(can?'':' none')+(anim?' anim':'')+(anim&&kKeyAt(P.kf[k])>=0?' on':'');
+  if(can){kb.title=anim?'Add or remove a key here':'Animate this setting';kb.setAttribute('aria-label',(anim?'Key for ':'Animate ')+it.l);kb.addEventListener('click',()=>kDiamond(k));}
+  const lab=document.createElement('span');lab.className='lab';lab.textContent=it.l;lab.title=it.l;
+  const num=document.createElement('input');num.type='number';num.className='num';num.step=it.step;num.min=it.min;num.max=it.max;num.setAttribute('aria-label',it.l+' value');
+  const sl=document.createElement('input');sl.type='range';sl.min=it.min;sl.max=it.max;sl.step=it.step;sl.setAttribute('aria-label',it.l);
+  const cur=it.get?it.get():kCur(k);sl.value=cur;num.value=kFmt(cur,it.step);
+  if(k&&!it.get){sl.dataset.k=k;}
+  const apply=v=>{if(isNaN(v))return;if(it.setv){it.setv(v);return;}if(P.kf&&P.kf[k])kAutoKey(k,v);else set(k,v);};
+  sl.addEventListener('input',()=>{const v=parseFloat(sl.value);num.value=kFmt(v,it.step);apply(v);});
+  num.addEventListener('change',()=>{let v=parseFloat(num.value);if(isNaN(v))return;sl.value=v;apply(v);});
+  row.append(kb,lab,num,sl);return row;
+}
+function kfEditor(){return document.createElement('div');}
+function kAutoKey(k,v){const tr=P.kf[k];const i=kKeyAt(tr);if(i>=0){tr.keys[i].v=v;kSel={k,i};}else{tr.keys.push({t:kX(),v,e:'inout'});kSort(tr);kSel={k,i:kKeyAt(tr)};}
+  needRender=true;kMarkRow(k);kTL();kCommit();}
+function kDiamond(k){if(!P.kf)P.kf={};const tr=P.kf[k];
+  if(!tr){P.kf[k]={keys:[{t:kX(),v:P[k],e:'inout'}]};kSel={k,i:0};}
+  else{const i=kKeyAt(tr);if(i>=0){tr.keys.splice(i,1);if(!tr.keys.length){delete P.kf[k];kSel=null;}else kSel=null;}
+    else{tr.keys.push({t:kX(),v:kVal(tr,kX()),e:'inout'});kSort(tr);kSel={k,i:kKeyAt(tr)};}}
+  needRender=true;renderPanel();kCommit();}
+function kMarkRow(k){document.querySelectorAll('[data-row="'+k+'"]').forEach(row=>{const tr=P.kf&&P.kf[k];const kb=row.querySelector('.kf');
+  row.classList.toggle('animated',!!tr);if(kb){kb.classList.toggle('anim',!!tr);kb.classList.toggle('on',!!tr&&kKeyAt(tr)>=0);}});}
+function kSyncRows(){if(!P.kf)return;for(const k in P.kf){const v=kVal(P.kf[k],kX());document.querySelectorAll('[data-row="'+k+'"]').forEach(row=>{
+  const sl=row.querySelector('input[type=range]'),num=row.querySelector('.num');if(document.activeElement!==sl&&document.activeElement!==num){sl.value=v;num.value=kFmt(v,+sl.step);}});kMarkRow(k);}}
+// keep sliders in step when something else changes a value (drag on canvas etc.)
+syncVal=function(k){document.querySelectorAll('[data-row="'+k+'"]').forEach(row=>{const sl=row.querySelector('input[type=range]'),num=row.querySelector('.num');sl.value=P[k];num.value=kFmt(P[k],+sl.step);});};
+
+/* timeline */
+function kSetTime(sec){const d=kDur();t=Math.max(0,Math.min(d-1e-4,sec));playing=false;syncPlay();needRender=true;kUI(true);}
+function kTL(){
+  const body=$k('tlBody');if(!body)return;body.innerHTML='';const inner=document.createElement('div');inner.className='tl-inner';
+  const head=document.createElement('div');head.className='tl-row head';const hl=document.createElement('div');hl.className='tl-label';hl.innerHTML='<span>Keyframes</span>';
+  const ruler=document.createElement('div');ruler.className='ruler';const d=kDur();const step=d<=3?0.5:d<=12?1:d<=30?2:5;
+  for(let s=0;s<d+1e-6;s+=step){const tk=document.createElement('span');tk.className='tick';tk.style.left=(s/d*100)+'%';tk.textContent=(+s.toFixed(1))+'s';ruler.append(tk);}
+  const scrubAt=e=>{const r=ruler.getBoundingClientRect();kSetTime((e.clientX-r.left)/r.width*kDur());};
+  ruler.addEventListener('pointerdown',e=>{ruler.setPointerCapture(e.pointerId);scrubAt(e);const mv=ev=>scrubAt(ev);const up=()=>{ruler.removeEventListener('pointermove',mv);ruler.removeEventListener('pointerup',up);};ruler.addEventListener('pointermove',mv);ruler.addEventListener('pointerup',up);});
+  head.append(hl,ruler);inner.append(head);
+  const keys=P.kf?Object.keys(P.kf):[];
+  if(!keys.length){const em=document.createElement('div');em.className='tl-empty';em.textContent='Nothing keyframed yet. Press the diamond beside any slider to start, then move the playhead and change the value. Drag keys to retime them, double-click a lane to add one.';inner.append(em);}
+  for(const k of keys){const tr=P.kf[k],def=kDef(k);const row=document.createElement('div');row.className='tl-row';
+    const lb=document.createElement('div');lb.className='tl-label';const nm=document.createElement('span');nm.textContent=def?def.l:k;nm.title=nm.textContent;
+    const x=document.createElement('button');x.type='button';x.className='x';x.textContent='×';x.title='Stop animating '+nm.textContent;x.setAttribute('aria-label',x.title);
+    x.addEventListener('click',()=>{delete P.kf[k];if(kSel&&kSel.k===k)kSel=null;needRender=true;renderPanel();kCommit();});lb.append(nm,x);
+    const lane=document.createElement('div');lane.className='lane';
+    tr.keys.forEach((q,i)=>{const kd=document.createElement('div');kd.className='key'+(kSel&&kSel.k===k&&kSel.i===i?' sel':'');kd.style.left=(q.t*100)+'%';kd.title=(q.t*d).toFixed(2)+'s';
+      kd.addEventListener('pointerdown',e=>{e.stopPropagation();kSel={k,i};kd.setPointerCapture(e.pointerId);const r=lane.getBoundingClientRect();let moved=false;
+        const mv=ev=>{moved=true;q.t=Math.max(0,Math.min(1,(ev.clientX-r.left)/r.width));kd.style.left=(q.t*100)+'%';needRender=true;};
+        const up=()=>{kd.removeEventListener('pointermove',mv);kd.removeEventListener('pointerup',up);kSort(tr);kSel={k,i:tr.keys.indexOf(q)};if(!moved){t=q.t*d;playing=false;syncPlay();}needRender=true;kTL();kInsp();renderPanelSoft();if(moved)kCommit();};
+        kd.addEventListener('pointermove',mv);kd.addEventListener('pointerup',up);kTL._sel=true;kInsp();});
+      lane.append(kd);});
+    lane.addEventListener('dblclick',e=>{const r=lane.getBoundingClientRect();const f=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));tr.keys.push({t:f,v:kVal(tr,f),e:'inout'});kSort(tr);
+      kSel={k,i:tr.keys.findIndex(q=>q.t===f)};needRender=true;kTL();kCommit();});
+    row.append(lb,lane);inner.append(row);}
+  const ph=document.createElement('div');ph.className='playhead';ph.id='kPlayhead';inner.append(ph);body.append(inner);kInsp();kUI(true);}
+function renderPanelSoft(){kSyncRows();}
+function kInsp(){const box=$k('kInsp');if(!box)return;const tr=kSel&&P.kf&&P.kf[kSel.k];const q=tr&&tr.keys[kSel.i];
+  if(!q){box.hidden=true;return;}box.hidden=false;const def=kDef(kSel.k);$k('kName').textContent=(def?def.l:kSel.k)+' @ '+(q.t*kDur()).toFixed(2)+'s';
+  const iv=$k('kVal');iv.value=q.v;if(def){iv.step=def.step;}$k('kEase').value=q.e||'inout';}
+function kUI(force){if(!P||!P.aspect)return;const d=kDur(),x=kX();const ph=$k('kPlayhead');if(ph){const lab=170,inner=ph.parentElement;const w=inner.clientWidth-lab;ph.style.left=(lab+x*w)+'px';}
+  const tt=$k('kTime');if(tt)tt.textContent=(x*d).toFixed(2)+'s f'+Math.round(x*d*kFps);
+  if(force||playing)kSyncRows();
+  const dims=$k('dims');if(dims&&typeof exportDims==='function'){const e=exportDims(+P.pngSize||3000);dims.textContent=e[0]+' × '+e[1];}
+  const du=$k('kDur');if(du&&document.activeElement!==du)du.value=+d.toFixed(2);}
+function kLoop(){requestAnimationFrame(kLoop);if(playing)kUI(false);}requestAnimationFrame(kLoop);
+
+/* undo / redo */
+let kHist=[],kFut=[],kLast='',kTimer=0,kApplying=false;
+function kCommit(){if(kApplying)return;clearTimeout(kTimer);kTimer=setTimeout(()=>{const s=JSON.stringify(P);if(s===kLast)return;if(kLast){kHist.push(kLast);if(kHist.length>80)kHist.shift();}kFut=[];kLast=s;kUndoUI();},300);}
+function kRestoreSnap(s){if(!KCFG)return;kApplying=true;try{const snap=KCFG.snapshot();snap.P=JSON.parse(s);KCFG.restore(snap);}finally{kApplying=false;}kLast=s;kSel=null;kTL();kUndoUI();}
+function kUndo(){if(!kHist.length)return;kFut.push(kLast);kRestoreSnap(kHist.pop());}
+function kRedo(){if(!kFut.length)return;kHist.push(kLast);kRestoreSnap(kFut.pop());}
+function kUndoUI(){const u=$k('bUndo'),r=$k('bRedo');if(u)u.disabled=!kHist.length;if(r)r.disabled=!kFut.length;}
+
+/* wire everything up */
+const _kSet=set;set=function(k,v){_kSet(k,v);if(k===KDUR)kTL();kCommit();};
+const _kPanel=renderPanel;renderPanel=function(){_kPanel();kTL();};
+const _kControl=control;control=function(it){if(it.t==='range')return rangeEl(it);if(it.t==='status')return document.createComment('status');
+  if(it.t==='btn'&&(it.fn===exportPNG||it.fn===record))return document.createComment('export');return _kControl(it);};
+status=function(s){toast(s);};
+syncPlay=function(){const b=$k('play');if(!b)return;b.innerHTML=playing?'<svg width="12" height="12" viewBox="0 0 12 12"><rect x="2" y="1" width="3" height="10" fill="currentColor"/><rect x="7" y="1" width="3" height="10" fill="currentColor"/></svg>':'<svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 1 L11 6 L2 11Z" fill="currentColor"/></svg>';b.title=playing?'Pause (space)':'Play (space)';b.setAttribute('aria-label',b.title);};
+const _kMP=makePresets;makePresets=function(cfg){KCFG=cfg;const r=cfg.restore;cfg.restore=s=>{r(s);if(!kApplying){kSel=null;kTL();kCommit();}};_kMP(cfg);setTimeout(()=>{kLast=JSON.stringify(P);kUndoUI();kTL();},0);};
+$k('tStart').addEventListener('click',()=>kSetTime(0));
+$k('tPrev').addEventListener('click',()=>kSetTime(kX()*kDur()-1/kFps));
+$k('tNext').addEventListener('click',()=>kSetTime(kX()*kDur()+1/kFps));
+$k('kDur').addEventListener('change',e=>{const v=Math.max(0.5,Math.min(120,parseFloat(e.target.value)||kDur()));set(KDUR,v);needRender=true;});
+$k('kFps').addEventListener('change',e=>{kFps=+e.target.value||30;kUI(true);});
+$k('kVal').addEventListener('change',e=>{const tr=kSel&&P.kf[kSel.k];if(!tr)return;const v=parseFloat(e.target.value);if(isNaN(v))return;tr.keys[kSel.i].v=v;needRender=true;kSyncRows();kCommit();});
+$k('kEase').addEventListener('change',e=>{const tr=kSel&&P.kf[kSel.k];if(!tr)return;tr.keys[kSel.i].e=e.target.value;needRender=true;kCommit();});
+$k('kAll').addEventListener('click',()=>{const tr=kSel&&P.kf[kSel.k];if(!tr)return;const e=tr.keys[kSel.i].e;tr.keys.forEach(q=>q.e=e);needRender=true;toast('Easing applied to every key');kCommit();});
+$k('kDel').addEventListener('click',()=>{const tr=kSel&&P.kf[kSel.k];if(!tr)return;tr.keys.splice(kSel.i,1);if(!tr.keys.length)delete P.kf[kSel.k];kSel=null;needRender=true;renderPanel();kCommit();});
+$k('bUndo').addEventListener('click',kUndo);$k('bRedo').addEventListener('click',kRedo);
+$k('bPng').addEventListener('click',()=>exportPNG());
+$k('bMp4').addEventListener('click',e=>record(e.currentTarget));
+$k('bPresets').addEventListener('click',e=>{e.stopPropagation();const m=$k('menu');m.hidden=!m.hidden;$k('bPresets').setAttribute('aria-expanded',!m.hidden);});
+document.addEventListener('click',e=>{const m=$k('menu');if(!m.hidden&&!m.contains(e.target)&&e.target!==$k('bPresets'))m.hidden=true;});
+document.addEventListener('keydown',e=>{const tag=(e.target.tagName||'').toLowerCase();const typing=tag==='input'||tag==='select'||tag==='textarea';
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='z'&&!typing){e.preventDefault();e.shiftKey?kRedo():kUndo();return;}
+  if(e.key===' '&&!typing&&!(e.target.tagName==='BUTTON')){e.preventDefault();if(recording)return;playing=!playing;syncPlay();needRender=true;}
+  if(e.key==='Escape')$k('menu').hidden=true;
+  if((e.key==='Delete'||e.key==='Backspace')&&!typing&&kSel){$k('kDel').click();}});
+new ResizeObserver(()=>kUI(true)).observe($k('tlBody'));
+
 P=Object.assign({},BASE);applyEffect('dissolve');syncPlay();
 makePresets({key:'pattern-studio',
   snapshot:()=>({P:JSON.parse(JSON.stringify(P)),media:IMG&&IMG.url?{url:IMG.url}:null}),

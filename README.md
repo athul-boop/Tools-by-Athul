@@ -7,9 +7,11 @@ Four generative tools (Pattern, Form, Flare, Pin) behind one team password, with
 | File | What it does |
 |---|---|
 | `index.html` | Home page with the four tool cards |
-| `pattern.html`, `form.html`, `flare.html`, `pin.html`, `fold.html`, `prism.html`, `ribbon.html`, `helix.html` | The tools |
+| `pattern.html`, `form.html`, `flare.html`, `pin.html`, `fold.html`, `prism.html`, `helix.html`, `stripes.html` | The tools |
 | `login.html` | The password screen |
-| `assets/ui.css` | Shared black, minimal look |
+| `assets/ui.css` | Look for the login page |
+| `assets/kit.css` | Shared tool layout: top bar, settings panel, stage, timeline |
+| `assets/home.css`, `assets/changelog.js` | Home page look and the changelog list |
 | `middleware.js` | The gatekeeper. Sends anyone without the password to the login screen |
 | `api/login.js`, `api/logout.js` | Checks the password, signs people in and out |
 | `api/presets.js` | Saves, lists and deletes team presets in Vercel Blob |
