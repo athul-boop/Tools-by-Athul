@@ -19,7 +19,8 @@
         <span>tools.byathul</span>
       </div>
       <nav class="pills" aria-label="Main">
-        <a href="#tools">Tools</a>
+        <a href="#tools">Studio</a>
+        <a href="#playground">Playground</a>
         <a href="#presets">Presets</a>
         <a href="changelog">Changelog</a>
       </nav>
@@ -28,22 +29,32 @@
     <div class="hero-foot">
       <h1>T00ls</h1>
       <div class="strip">
-        <span class="tag" id="count">4 tools</span>
+        <span class="tag" id="count">9 tools</span>
         <div class="bars" id="bars" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
-  <div class="label" id="tools"><h2>Tools</h2><span>Pick one to start</span></div>
-  <div class="row" id="toolrow">
-    <a class="card tool" href="pattern"><div class="card-top"><span class="num">01</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Pattern</span><span class="desc">Line meshes, dust, fibers, silk</span></div></a>
-    <a class="card tool" href="form"><div class="card-top"><span class="num">02</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Form</span><span class="desc">Flat 3D bursts, stacks, bars</span></div></a>
-    <a class="card tool" href="flare"><div class="card-top"><span class="num">03</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Flare</span><span class="desc">Blade fans and spirals</span></div></a>
-    <a class="card tool" href="pin"><div class="card-top"><span class="num">04</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Pin</span><span class="desc">Any image as a pin field</span></div></a>
-    <a class="card tool" href="fold"><div class="card-top"><span class="num">05</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Fold</span><span class="desc">Folded stripes, wells and horns</span></div></a>
-    <a class="card tool" href="prism"><div class="card-top"><span class="num">06</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Prism</span><span class="desc">Gradient boxes, stacks and grids</span></div></a>
-    <a class="card tool" href="helix"><div class="card-top"><span class="num">07</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Helix</span><span class="desc">Twisting satin slabs and coils</span></div></a>
-    <a class="card tool" href="stripes"><div class="card-top"><span class="num">08</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Stripes</span><span class="desc">Broken bars, steps and reveals</span></div></a>
+  <div class="label" id="tools"><h2>Studio</h2><span>The main tools</span></div>
+  <div class="bento main" id="toolrow">
+    <a class="card tool b-stripes" href="stripes"><div class="card-top"><span class="num">01</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="art" aria-hidden="true"><div class="mini-bars" id="sbars"></div></div><div class="feats"><span>Variations</span><span>Image reveal</span><span>SVG · MP4</span></div><div class="card-body"><span class="big">Stripes</span><span class="desc">Broken bars, steps and reveals. Noise, waves, gradients or your own image, on a keyframe timeline.</span></div></a>
+    <a class="card tool b-iso" href="iso"><div class="card-top"><span class="num">02</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="art" aria-hidden="true"><svg viewBox="0 0 320 180"><g stroke-linejoin="round" stroke-width="1.2">
+<path d="M160 52 244 100v34l-84 48-84-48v-34z" fill="#0d0d0e" stroke="#4a4a4f"/><path d="M76 100 160 148 244 100" fill="none" stroke="#4a4a4f"/><path d="M160 148v34" stroke="#4a4a4f"/>
+<path d="M160 52 244 100 160 148 76 100z" fill="#161618" stroke="#4a4a4f"/>
+<path d="M118 62 140 49 182 73 160 86z" fill="#d8d8d8" stroke="#d8d8d8"/><path d="M118 62v40l42 24V86z" fill="#ededed" stroke="#ededed"/><path d="M160 86l22-13v40l-22 13z" fill="#8c8c8c" stroke="#8c8c8c"/>
+<path d="M196 104 214 94 232 104 214 114z" fill="#2a2a2d" stroke="#5a5a60"/></g></svg></div><div class="feats"><span>Push / pull</span><span>Booleans</span><span>SVG · PNG · MP4</span></div><div class="card-body"><span class="big">Iso</span><span class="desc">True-isometric blocks you draw, push, pull and cut. Layers, booleans, keyframes and clean single-path SVG.</span></div></a>
+  </div>
+
+  <div class="label" id="playground"><h2>Playground</h2><span>Explorations and experiments</span></div>
+  <div class="bento play" id="playrow">
+    <a class="card tool p-pattern" href="pattern"><div class="card-top"><span class="num">03</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Pattern</span><span class="desc">Line meshes, dust, fibers, silk</span></div></a>
+    <a class="card tool p-form" href="form"><div class="card-top"><span class="num">04</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Form</span><span class="desc">Flat 3D bursts, stacks, bars</span></div></a>
+    <a class="card tool p-flare" href="flare"><div class="card-top"><span class="num">05</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Flare</span><span class="desc">Blade fans and spirals</span></div></a>
+    <a class="card tool p-pin" href="pin"><div class="card-top"><span class="num">06</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Pin</span><span class="desc">Any image as a pin field</span></div></a>
+    <a class="card tool p-fold" href="fold"><div class="card-top"><span class="num">07</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Fold</span><span class="desc">Folded stripes, wells and horns</span></div></a>
+    <a class="card tool p-prism" href="prism"><div class="card-top"><span class="num">08</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Prism</span><span class="desc">Gradient boxes, stacks and grids</span></div></a>
+    <a class="card tool p-helix" href="helix"><div class="card-top"><span class="num">09</span><span class="go" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 9 L9 3 M4 3 H9 V8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span></div><div class="card-body"><span class="big">Helix</span><span class="desc">Twisting satin slabs and coils</span></div></a>
+    <section class="card next p-next"><div class="card-top"><span class="num">10</span><span class="go dashed" aria-hidden="true">+</span></div><div class="card-body"><span class="big dim">Next</span><span class="desc">New experiments land here</span></div></section>
   </div>
 
   <div class="label"><h2>Library</h2></div>
@@ -59,10 +70,6 @@
       <div class="card-top"><span class="num">Changelog</span><a class="mono-link" href="changelog">View all</a></div>
       <ol class="log" id="log"></ol>
     </section>
-    <section class="card next">
-      <div class="card-top"><span class="num">09</span><span class="go dashed" aria-hidden="true">+</span></div>
-      <div class="card-body"><span class="big dim">Next</span><span class="desc">New tools land here</span></div>
-    </section>
   </div>
 
   <footer class="foot"><span>Tools by Athul</span><span>Team access</span></footer>
@@ -75,7 +82,9 @@
   for(let i=0;i<64;i++){const x=i/63;const h=14+82*Math.exp(-Math.pow((x-0.72)/0.18,2))+5*Math.sin(i*1.7)+6;
     const b=document.createElement('i');b.style.height=Math.max(8,Math.min(96,h)).toFixed(0)+'px';b.style.opacity=(0.35+0.65*x).toFixed(2);bars.append(b);}
   // tool count + latest changelog entries
-  document.getElementById('count').textContent=document.querySelectorAll('#toolrow .tool').length+' tools';
+  document.getElementById('count').textContent=document.querySelectorAll('.bento .tool').length+' tools';
+  // stripes preview bars (static)
+  const sb=document.getElementById('sbars');if(sb)for(let i=0;i<56;i++){const v=0.5+0.5*Math.sin(i*0.55)*Math.cos(i*0.17);const b=document.createElement('i');b.style.flexGrow=(0.25+v*1.6).toFixed(2);b.style.opacity=(0.4+0.6*(i/55)).toFixed(2);sb.append(b);}
   const log=document.getElementById('log');
   (window.CHANGELOG||[]).slice(0,5).forEach(e=>{const li=document.createElement('li');const d=document.createElement('span');d.className='date';d.textContent=e.date;
     const t=document.createElement('span');t.textContent=e.title;li.append(d,t);log.append(li);});

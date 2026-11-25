@@ -1,5 +1,7 @@
 // Add new entries at the TOP of this list. The home page shows the newest five.
 window.CHANGELOG = [
+  { date: '25 Nov 2026', title: 'Iso', body: 'A new main tool: true-isometric blocks you draw, push, pull and cut, with layers, booleans, keyframes and clean single-path SVG.' },
+  { date: '25 Nov 2026', title: 'Studio and Playground', body: 'Stripes and Iso are now the main tools. Pattern, Form, Flare, Pin, Fold, Prism and Helix move to Playground.' },
   { date: '24 Nov 2026', title: 'New tool layout', body: 'Every tool now shares one layout: top bar with undo, presets and export, a gridded stage, and a full keyframe timeline along the bottom.' },
   { date: '24 Nov 2026', title: 'Stripes', body: 'Broken vertical bar patterns with variations, image reveal, SVG and MP4 export.' },
   { date: '24 Nov 2026', title: 'Helix card fan', body: 'Rounded cards fanned along an arc, now part of Helix. Ribbon has been retired.' },

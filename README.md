@@ -7,7 +7,8 @@ Four generative tools (Pattern, Form, Flare, Pin) behind one team password, with
 | File | What it does |
 |---|---|
 | `index.html` | Home page with the four tool cards |
-| `pattern.html`, `form.html`, `flare.html`, `pin.html`, `fold.html`, `prism.html`, `helix.html`, `stripes.html` | The tools |
+| `stripes.html`, `iso.html` | The main tools (Studio section on the home page) |
+| `pattern.html`, `form.html`, `flare.html`, `pin.html`, `fold.html`, `prism.html`, `helix.html` | Playground tools (experiments) |
 | `login.html` | The password screen |
 | `assets/ui.css` | Look for the login page |
 | `assets/kit.css` | Shared tool layout: top bar, settings panel, stage, timeline |
@@ -40,7 +41,7 @@ Four generative tools (Pattern, Form, Flare, Pin) behind one team password, with
 ## Adding a new tool later
 
 1. Upload the new tool's `.html` file to the repo.
-2. Add a card for it in `index.html` (copy an existing card and change the link, number, name and line).
+2. Add a card for it in `index.html`, in the Studio or Playground bento (copy an existing card, change the link, number, name and line, and give it a spot in the grid areas in `assets/home.css`).
 3. Add a line at the top of `assets/changelog.js`.
 
 Team presets work for new tools automatically.
