@@ -74,10 +74,19 @@ h1{margin:0;margin-bottom:-.06em;font:600 clamp(96px,17vw,264px)/.9 'JetBrains M
 .bento.play .big{font-size:40px}
 .p-pattern{grid-area:pat}.bento.play .p-pattern .big{font-size:64px}
 .p-form{grid-area:frm}.p-flare{grid-area:fla}.p-pin{grid-area:pin}.p-fold{grid-area:fol}.p-prism{grid-area:pri}.p-helix{grid-area:hel}.p-next{grid-area:nxt;min-height:180px;gap:24px}
-@media (max-width:1000px){
-  .bento.play{grid-template-areas:"pat pat pat pat pat pat frm frm frm frm frm frm" "pat pat pat pat pat pat fla fla fla fla fla fla" "pin pin pin pin pin pin fol fol fol fol fol fol" "pri pri pri pri pri pri hel hel hel hel hel hel" "nxt nxt nxt nxt nxt nxt nxt nxt nxt nxt nxt nxt"}}
-@media (max-width:760px){.bento.main{grid-template-columns:1fr}}
-@media (max-width:640px){.bento.play{grid-template-columns:1fr;grid-template-areas:none}.bento .card{grid-area:auto!important}.tool.mini{min-height:170px}.bento.main .big{font-size:40px}.bento.play .p-pattern .big{font-size:48px}}
+/* keep the bento at every width; only very narrow phones stack */
+@media (max-width:900px){
+  .bento.play{grid-template-columns:repeat(6,minmax(0,1fr));grid-template-areas:
+    "pat pat pat pat frm frm" "pat pat pat pat fla fla" "pin pin fol fol fol fol" "pri pri pri hel hel hel" "nxt nxt nxt nxt nxt nxt"}
+  .bento.play .big{font-size:32px}.bento.play .p-pattern .big{font-size:48px}
+  .tool.mini .thumb{flex-basis:36%}.bento.main .big{font-size:40px}}
+@media (max-width:620px){
+  .bento.main{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tool.mini{flex-direction:column;min-height:0}.tool.mini .thumb{flex:none;max-width:none;height:110px;order:-1}
+  .bento.play{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:
+    "pat frm" "pat fla" "pin fol" "pri hel" "nxt nxt"}
+  .bento.play .tool,.p-next{min-height:150px;gap:16px}.bento.play .big{font-size:26px}.bento.play .p-pattern .big{font-size:34px}.bento.main .big{font-size:30px}}
+@media (max-width:380px){.bento.main,.bento.play{grid-template-columns:1fr;grid-template-areas:none}.bento .card{grid-area:auto!important}}
 /* changelog page */
 .entries{display:flex;flex-direction:column;gap:12px}
 .entry{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;gap:24px;flex-wrap:wrap}
